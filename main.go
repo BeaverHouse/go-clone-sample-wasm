@@ -1,18 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"os"
-	"strconv"
 )
 
 func main() {
 
-	n, err := strconv.Atoi(os.Args[1])
-	if err != nil {
-		panic(err)
-	}
+	jsonString := os.Args[1]
+
+	var jsonMap map[string]interface{}
+	json.Unmarshal([]byte(jsonString), &jsonMap)
+
+	a := jsonMap["a"].(int)
+	b := jsonMap["b"].(int)
+
 	println("Hello WasmEdge!")
-	println(CustomFunc(int32(n)))
+	println("a 값은 아래 값입니다.")
+	println(a)
+	println("b 값은 아래 값입니다.")
+	println(b)
+	println(CustomFunc(int32(a + b)))
 }
 
 func CustomFunc(n int32) int32 {
