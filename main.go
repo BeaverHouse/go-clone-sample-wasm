@@ -1,19 +1,26 @@
 package main
 
 import (
-	"encoding/json"
+	"log"
 	"os"
+
+	"github.com/buger/jsonparser"
 )
 
 func main() {
 
 	jsonString := os.Args[1]
 
-	var jsonMap map[string]interface{}
-	json.Unmarshal([]byte(jsonString), &jsonMap)
+	jsonMap := []byte(jsonString)
 
-	a := jsonMap["a"].(int)
-	b := jsonMap["b"].(int)
+	a, err := jsonparser.GetInt(jsonMap, "a")
+	if err != nil {
+		log.Fatal(err)
+	}
+	b, err := jsonparser.GetInt(jsonMap, "b")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	println("Hello WasmEdge!")
 	println("a 값은 아래 값입니다.")
